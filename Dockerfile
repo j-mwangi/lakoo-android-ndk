@@ -1,5 +1,5 @@
 FROM openjdk:8-jdk
-MAINTAINER William Chong <williamchong@lakoo.com>
+MAINTAINER James Mwangi <jamesmwangi55@gmail.com>
 
 RUN mkdir -p /opt/android-sdk-linux && mkdir -p ~/.android && touch ~/.android/repositories.cfg
 WORKDIR /opt
@@ -9,6 +9,12 @@ ENV PATH ${PATH}:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${PATH
 ENV ANDROID_NDK /opt/android-ndk-linux
 ENV ANDROID_NDK_HOME /opt/android-ndk-linux
 
+RUN apt-get -qq update && \
+	apt-get install -qqy --no-install-recommends \
+	build-essential \
+  file \
+  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
 	unzip \
 	wget
@@ -16,7 +22,7 @@ RUN cd /opt/android-sdk-linux && \
 	wget -q --output-document=sdk-tools.zip https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip && \
 	unzip sdk-tools.zip && \
 	rm -f sdk-tools.zip && \
-	echo y | sdkmanager "build-tools;26.0.1" "platforms;android-25" && \
+	echo y | sdkmanager "build-tools;26.0.1" "platforms;android-26" && \
 	echo y | sdkmanager "extras;android;m2repository" "extras;google;m2repository" "extras;google;google_play_services" && \
 	sdkmanager "cmake;3.6.4111459"
 RUN wget -q --output-document=android-ndk.zip https://dl.google.com/android/repository/android-ndk-r15c-linux-x86_64.zip && \
