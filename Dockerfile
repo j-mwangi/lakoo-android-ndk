@@ -1,5 +1,5 @@
 FROM openjdk:8-jdk
-MAINTAINER James Mwangi <jamesmwangi55@gmail.com>
+MAINTAINER James Mwangi <james@dukaconnect.com>
 
 RUN mkdir -p /opt/android-sdk-linux && mkdir -p ~/.android && touch ~/.android/repositories.cfg
 WORKDIR /opt
@@ -22,9 +22,10 @@ RUN cd /opt/android-sdk-linux && \
 	wget -q --output-document=sdk-tools.zip https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip && \
 	unzip sdk-tools.zip && \
 	rm -f sdk-tools.zip && \
-	echo y | sdkmanager "build-tools;26.0.1" "platforms;android-25" && \
+	echo y | sdkmanager "build-tools;25.0.3" "platforms;android-26" && \
 	echo y | sdkmanager "extras;android;m2repository" "extras;google;m2repository" "extras;google;google_play_services" && \
 	sdkmanager "cmake;3.6.4111459"
+RUN yes | sudo sdkmanager --licensess  
 RUN wget -q --output-document=android-ndk.zip https://dl.google.com/android/repository/android-ndk-r15c-linux-x86_64.zip && \
 	unzip android-ndk.zip && \
 	rm -f android-ndk.zip && \
